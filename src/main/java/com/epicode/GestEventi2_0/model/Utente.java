@@ -29,7 +29,7 @@ public class Utente {
     @Column(nullable = false)
     private String password;
     @ManyToOne
-    @JoinColumn(name = "utente_id")
+    @JoinColumn(name = "ruolo_id")
     private Ruolo ruolo;
 
 

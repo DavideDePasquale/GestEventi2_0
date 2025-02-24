@@ -12,9 +12,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class UtenteMapperDTO {
 
-    @Autowired
-    RuoloRepository repository;
 
+   public RuoloRepository repository;
+
+   @Autowired
+    public UtenteMapperDTO(RuoloRepository repository) {
+        this.repository = repository;
+    }
 
     public UtenteDTO toDto(Utente entity){
         UtenteDTO dto = new UtenteDTO();
@@ -38,4 +42,5 @@ public class UtenteMapperDTO {
         entity.setPassword(dto.getPassword());
         return entity;
     }
+
 }

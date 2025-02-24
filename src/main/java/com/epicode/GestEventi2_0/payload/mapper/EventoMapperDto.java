@@ -10,8 +10,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class EventoMapperDto {
 
-    @Autowired
-    UtenteRepository repository;
+
+   public UtenteRepository repository;
+
+   @Autowired
+    public EventoMapperDto(UtenteRepository repository) {
+        this.repository = repository;
+    }
 
     public EventoDTO toDto(Evento entity){
         EventoDTO dto = new EventoDTO();
@@ -33,7 +38,7 @@ public class EventoMapperDto {
         entity.setDataevento(dto.getDataevento());
         entity.setLuogo(dto.getLuogo());
         entity.setDescrizione(dto.getDescrizione());
-        Utente utente = repository.findById(dto.getOrganizzatore_id()).orElseThrow(()-> new RuntimeException("Utente non trovato"))
+        Utente utente = repository.findById(dto.getOrganizzatore_id()).orElseThrow(()-> new RuntimeException("Utente non trovato"));
         entity.setOrganizzatore(utente);
         return entity;
     }

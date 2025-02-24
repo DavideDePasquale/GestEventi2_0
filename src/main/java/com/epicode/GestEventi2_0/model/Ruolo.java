@@ -6,7 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -24,8 +26,8 @@ public class Ruolo {
     @Column(length = 20, unique = true)
     private ERole name; // ENUM
 
-    @OneToMany(mappedBy = "roles", fetch = FetchType.LAZY)
-    private Set<Utente> utenti = new HashSet<>();
+    @OneToMany(mappedBy = "ruolo", fetch = FetchType.LAZY)
+    private List<Utente> utenti = new ArrayList<>();
 
     @Override
     public String toString() {
