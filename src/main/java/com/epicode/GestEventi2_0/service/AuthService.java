@@ -27,9 +27,9 @@ public class AuthService {
         System.out.println("AUTHENTICATING USER : " + loginRequest.getUsername());
         Authentication authentication;
         try {
-//            authentication = authenticationManager.authenticate(
-//                    new UsernamePasswordAuthenticationToken(
-//                            loginRequest.getUsername(), loginRequest.getPassword()));
+            authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            loginRequest.getUsername(), loginRequest.getPassword()));
 
         } catch (RuntimeException e) {
             System.out.println("AUTHENTICATION FAILED : " + loginRequest.getUsername());
@@ -38,11 +38,11 @@ public class AuthService {
         System.out.println("USER AUTHENTICATION SUCCESSFULLY : " + loginRequest.getUsername());
 
         // prende l'oggetto autenticato e lo rendiamo sicuro.  ⬇️
-//        SecurityContextHolder.getContext().setAuthentication(authentication);
-//        String username = ((UserDetails) authentication.getPrincipal()).getUsername();
-//        String ruolo = authentication.getAuthorities().toString();
-        //String jwt = jwtUtils.generateToken(username, ruolo);
-//        System.out.println("JWT GENERATE : " + username);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String username = ((UserDetails) authentication.getPrincipal()).getUsername();
+        String ruolo = authentication.getAuthorities().toString();
+        String jwt = jwtUtils.generateToken(username, ruolo);
+        System.out.println("JWT GENERATE : " + username);
         return ResponseEntity.ok("CIAO");
     }
 }
