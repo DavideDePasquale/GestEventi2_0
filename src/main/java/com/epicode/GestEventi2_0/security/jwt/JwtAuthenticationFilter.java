@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -28,7 +29,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       throws ServletException, IOException {
 
     String requestURI = request.getRequestURI();
-    if (requestURI.startsWith("/auth/")) {
+    if (requestURI.startsWith("/utente/")) {
       filterChain.doFilter(request, response);
       return;
     }
@@ -40,16 +41,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       UserDetails userDetails = costumUserDetailService.loadUserByUsername(username);
 
       if (userDetails != null) {
+        boolean isAdmin = userDetails.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ADMIN"));
+        if(!isAdmin && requestURI.startsWith("/evento/")){
+          response.sendError(HttpServletResponse.SC_FORBIDDEN,"Utente non autorizzato!");
+          return;
+        }
         UsernamePasswordAuthenticationToken authentication =
             new UsernamePasswordAuthenticationToken(
                 userDetails, null, userDetails.getAuthorities());
-
         authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
         SecurityContextHolder.getContext().setAuthentication(authentication);
       }
     }
-
     filterChain.doFilter(request, response);
   }
 
