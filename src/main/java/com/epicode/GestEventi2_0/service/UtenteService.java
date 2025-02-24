@@ -6,6 +6,7 @@ import com.epicode.GestEventi2_0.payload.mapper.UtenteMapperDTO;
 import com.epicode.GestEventi2_0.repository.UtenteRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,15 +18,15 @@ public class UtenteService {
     @Autowired
     UtenteMapperDTO mapper;
     @Autowired
-
-
-
+    PasswordEncoder passwordEncoder;
 
 
     public Utente createNewUtente(UtenteDTO utenteDTO){
         Utente utente = mapper.toEntity(utenteDTO);
+        utente.setPassword(passwordEncoder.encode(utenteDTO.getPassword()));
         return utenteRepository.save(utente);
-
     }
+
+
 
 }
