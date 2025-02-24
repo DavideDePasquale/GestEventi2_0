@@ -42,12 +42,11 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/admin/**").hasAuthority("ADMIN")
                         .requestMatchers("/api/user/**").hasAnyAuthority("USER", "ADMIN")
-                        .requestMatchers("/events").permitAll()
-                        .requestMatchers("/events/{id}").permitAll()
-                        .requestMatchers("/events/**").hasAuthority("ADMIN")  
+                        .requestMatchers("/evento").permitAll()
+                        .requestMatchers("/evento/{id}").permitAll()
+                        .requestMatchers("/evento/**").hasAuthority("ADMIN")
                         .requestMatchers("/api/reservations/**").hasAuthority("USER")
                         .requestMatchers("/utente/register", "/utente/login").permitAll()
-
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

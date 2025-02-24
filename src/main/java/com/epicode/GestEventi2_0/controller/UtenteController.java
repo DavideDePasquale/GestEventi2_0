@@ -41,4 +41,7 @@ public class UtenteController {
         System.out.println("🔥Login request received:" + loginRequest.getUsername());
         return authService.authenticateUser(loginRequest);
     }
+
+
+
 }

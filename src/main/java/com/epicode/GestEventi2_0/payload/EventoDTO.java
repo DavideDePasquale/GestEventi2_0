@@ -5,6 +5,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -16,15 +17,15 @@ public class EventoDTO {
     private String titolo;
     @NotBlank
     private String descrizione;
-    @NotBlank
+    @NotNull
     private LocalDate dataevento;
     @NotBlank
     private String luogo;
     @NotBlank
     private String citta;
-    @NotBlank
+    @NotNull
     private int capacita;
-    @NotBlank
+    @NotNull
     private Long organizzatore_id;
 
 }
