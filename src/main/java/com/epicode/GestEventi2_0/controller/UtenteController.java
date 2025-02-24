@@ -42,13 +42,14 @@ public class UtenteController {
     }
 
     @GetMapping("/{id}")
-    public Utente getById(@PathVariable @Validated Long id){
+    public Utente getById(@PathVariable Long id){
         return  utenteService.getUtenteById(id);
     }
     @GetMapping("/all")
     public List<Utente> getAllUtenti(){
         return utenteService.getAllUtenti();
     }
+
 
 
 

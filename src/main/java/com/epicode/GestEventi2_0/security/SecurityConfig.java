@@ -43,6 +43,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/admin/**").hasAuthority("ADMIN")
                         .requestMatchers("/api/user/**").hasAnyAuthority("USER", "ADMIN")
                         .requestMatchers("/evento").permitAll()
+                        .requestMatchers("/utente/{id}").permitAll()
                         .requestMatchers("/evento/{id}").permitAll()
                         .requestMatchers("/evento/**").hasAuthority("ADMIN")
                         .requestMatchers("/prenotazione/**").hasAuthority("USER")

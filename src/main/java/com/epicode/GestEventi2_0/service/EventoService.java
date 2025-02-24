@@ -36,4 +36,8 @@ public class EventoService {
     public List<Evento> getAllEvents(){
       return   eventoRepository.findAll();
     }
+
+    public Evento getEventoById(Long id){
+        return  eventoRepository.findById(id).orElseThrow(()-> new RuntimeException("Evento con id "+ id + " non è presente nel db"));
+    }
 }
