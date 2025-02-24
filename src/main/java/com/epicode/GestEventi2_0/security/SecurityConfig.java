@@ -1,7 +1,12 @@
 package com.epicode.GestEventi2_0.security;
 
+import com.epicode.GestEventi2_0.repository.UtenteRepository;
+import com.epicode.GestEventi2_0.security.jwt.JwtAuthenticationFilter;
+import com.epicode.GestEventi2_0.service.CostumUserDetailService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -13,11 +18,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.util.List;
 
 @Configuration
 public class SecurityConfig {
+    @Autowired
+    JwtAuthenticationFilter jwtAuthenticationFilter;
 
 
     //csrf -> difende progetto da attacchi esterni (facciamo disable() perchè scriviamo App Restfull)
@@ -32,20 +40,24 @@ public class SecurityConfig {
                         auth.requestMatchers("/utente/register", "/utente/login").permitAll()
                         .anyRequest().authenticated()).sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-
+       // .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
-
     }
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-
     //METODO PER SPRING. QUI CI SARANNO VALORI PRIMITIVI.
     @Bean
+    @Lazy
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
+
+    @Bean
+    public UserDetailsService userDetailsService(UtenteRepository utenteRepository) {
+        return new CostumUserDetailService(utenteRepository);
+    }
 }

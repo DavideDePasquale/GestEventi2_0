@@ -7,9 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Data
@@ -32,6 +30,10 @@ public class Ruolo {
     @Override
     public String toString() {
         return "Role{id=" + id + ", name=" + name + "}";
+    }
+
+    public String getName() {
+        return name.name();
     }
 
     @Override

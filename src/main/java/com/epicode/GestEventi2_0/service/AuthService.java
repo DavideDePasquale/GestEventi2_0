@@ -13,31 +13,36 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Service
-@Transactional
 public class AuthService {
 
-  // qui dentro ci passiamo i dati (username e password)
-  // questo service deve autenticare se l'utente c'è o meno.
+    // qui dentro ci passiamo i dati (username e password)
+    // questo service deve autenticare se l'utente c'è o meno.
+    @Autowired
+    private AuthenticationManager authenticationManager;
+    @Autowired
+    private JwtUtils jwtUtils;
 
-  private final AuthenticationManager authenticationManager;
-  private final JwtUtils jwtUtils;
 
-  @Autowired
-  public AuthService(AuthenticationManager authenticationManager, JwtUtils jwtUtils) {
-    this.authenticationManager = authenticationManager;
-    this.jwtUtils = jwtUtils;
-  }
+    public ResponseEntity<?> authenticateUser(LoginRequest loginRequest) {
+        System.out.println("AUTHENTICATING USER : " + loginRequest.getUsername());
+        Authentication authentication;
+        try {
+            authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            loginRequest.getUsername(), loginRequest.getPassword()));
 
-  public ResponseEntity<?> authenticateUser(LoginRequest loginRequest) {
-    Authentication authentication =
-        authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(
-                loginRequest.getUsername(), loginRequest.getPassword()));
-    // prende l'oggetto autenticato e lo rendiamo sicuro.  ⬇️
-    SecurityContextHolder.getContext().setAuthentication(authentication);
-    String username = ((UserDetails) authentication.getPrincipal()).getUsername();
-    String ruolo = authentication.getAuthorities().toString();
-    String jwt = jwtUtils.generateToken(username, ruolo);
-    return ResponseEntity.ok(jwt);
-  }
+        } catch (RuntimeException e) {
+            System.out.println("AUTHENTICATION FAILED : " + loginRequest.getUsername());
+            throw new RuntimeException(e);
+        }
+        System.out.println("USER AUTHENTICATION SUCCESSFULLY : " + loginRequest.getUsername());
+
+        // prende l'oggetto autenticato e lo rendiamo sicuro.  ⬇️
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String username = ((UserDetails) authentication.getPrincipal()).getUsername();
+        String ruolo = authentication.getAuthorities().toString();
+        String jwt = jwtUtils.generateToken(username, ruolo);
+        System.out.println("JWT GENERATE : " + username);
+        return ResponseEntity.ok(jwt);
+    }
 }
