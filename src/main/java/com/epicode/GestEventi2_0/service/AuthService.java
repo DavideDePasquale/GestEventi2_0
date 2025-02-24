@@ -43,6 +43,6 @@ public class AuthService {
         String ruolo = authentication.getAuthorities().toString();
         String jwt = jwtUtils.generateToken(username, ruolo);
         System.out.println("JWT GENERATE : " + username);
-        return ResponseEntity.ok("CIAO");
+        return ResponseEntity.ok(jwt);
     }
 }
