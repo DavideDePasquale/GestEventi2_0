@@ -5,6 +5,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Data
 public class UtenteDTO {
 
@@ -18,5 +21,6 @@ public class UtenteDTO {
     private String username;
 
     private String password;
-    private String ruolo;
+
+    private Set<String> ruolo = new HashSet<>();
 }

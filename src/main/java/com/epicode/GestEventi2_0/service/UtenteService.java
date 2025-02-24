@@ -24,6 +24,7 @@ public class UtenteService {
     public Utente createNewUtente(UtenteDTO utenteDTO){
         Utente utente = mapper.toEntity(utenteDTO);
         utente.setPassword(passwordEncoder.encode(utenteDTO.getPassword()));
+        utente.getRoles().forEach(System.out::println);
         return utenteRepository.save(utente);
     }
 

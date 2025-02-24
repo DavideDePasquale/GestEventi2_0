@@ -32,13 +32,13 @@ public class UtenteController {
     }
 
     @PostMapping("/register")
-    public UtenteDTO registerUser(@RequestBody @Validated UtenteDTO utenteDTO) {
-        Utente utente = utenteService.createNewUtente(utenteDTO);
-        return mapper.toDto(utente);
+    public Utente registerUser(@RequestBody UtenteDTO utenteDTO) {
+        return utenteService.createNewUtente(utenteDTO);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody @Validated LoginRequest loginRequest) {
+    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
+        System.out.println("🔥Login request received:" + loginRequest.getUsername());
         return authService.authenticateUser(loginRequest);
     }
 }

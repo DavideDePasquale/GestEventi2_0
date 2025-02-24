@@ -30,8 +30,7 @@ public class CostumUserDetailService implements UserDetailsService {
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),
                 user.getPassword(),
-               new ArrayList<>()
-               // Collections.singletonList(new SimpleGrantedAuthority(user.getRuolo().getName()))
+               Collections.singletonList(new SimpleGrantedAuthority(user.getRoles().toString()))
         );
     }
 }

@@ -1,13 +1,16 @@
 package com.epicode.GestEventi2_0.model;
 
 import com.epicode.GestEventi2_0.enumeration.ERole;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -24,8 +27,9 @@ public class Ruolo {
     @Column(length = 20, unique = true)
     private ERole name; // ENUM
 
-    @OneToMany(mappedBy = "ruolo", fetch = FetchType.LAZY)
-    private List<Utente> utenti = new ArrayList<>();
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Set<Utente> users = new HashSet<>();
 
     @Override
     public String toString() {

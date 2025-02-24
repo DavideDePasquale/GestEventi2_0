@@ -1,5 +1,7 @@
 package com.epicode.GestEventi2_0.security.jwt;
 
+import com.epicode.GestEventi2_0.model.Ruolo;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Date;
+import java.util.List;
 
 @Component
 public class JwtUtils {
@@ -24,10 +27,10 @@ public class JwtUtils {
         return Keys.hmacShaKeyFor(jwtSecret.getBytes());
     }
     // genero il token
-    public String generateToken(String username, String ruolo){
+    public String generateToken(String username, List<String> ruoli){
         return Jwts.builder()
                 .setSubject(username)
-                .claim("ruolo",ruolo)
+                .claim("ruolo",ruoli)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpiration))
                 .signWith(getSigningKey() , SignatureAlgorithm.HS256).compact();     //firma
@@ -50,5 +53,12 @@ public class JwtUtils {
         } catch (JwtException e) {
             return false;
         }
+    }
+    public List<String> getRolesFromToken(String token) {
+        Claims claims = Jwts.parser()
+                .setSigningKey(getSigningKey())
+                .parseClaimsJws(token)
+                .getBody();
+        return claims.get("roles", List.class);
     }
 }

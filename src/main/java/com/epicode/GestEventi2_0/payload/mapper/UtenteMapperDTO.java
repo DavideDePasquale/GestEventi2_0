@@ -9,6 +9,9 @@ import com.epicode.GestEventi2_0.repository.RuoloRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Component
 public class UtenteMapperDTO {
 
@@ -25,7 +28,14 @@ public class UtenteMapperDTO {
         dto.setNome(entity.getNome());
         dto.setCognome(entity.getCognome());
         dto.setEmail(entity.getEmail());
-        dto.setRuolo(entity.getRuolo().toString());
+        Set<String> roles = new HashSet<>();
+
+        for (Ruolo roleName : entity.getRoles()) {
+            Ruolo role = repository.findByName(ERole.valueOf(String.valueOf(roleName)))
+                    .orElseThrow(() -> new RuntimeException("Role not found: " + roleName));
+            roles.add(role.toString());
+        }
+        dto.setRuolo(roles);
         dto.setUsername(entity.getUsername());
         dto.setPassword(entity.getPassword());
         return dto;
@@ -36,8 +46,14 @@ public class UtenteMapperDTO {
         entity.setNome(dto.getNome());
         entity.setCognome(dto.getCognome());
         entity.setEmail(dto.getEmail());
-        Ruolo ruolo = repository.findByName(ERole.valueOf(dto.getRuolo())).orElseThrow(()-> new RuntimeException("Ruolo non trovato"));
-        entity.setRuolo(ruolo);
+        Set<Ruolo> roles = new HashSet<>();
+
+        for (String roleName : dto.getRuolo()) {
+            Ruolo role = repository.findByName(ERole.valueOf(roleName))
+                    .orElseThrow(() -> new RuntimeException("Role not found: " + roleName));
+            roles.add(role);
+        }
+        entity.setRoles(roles);
         entity.setUsername(dto.getUsername());
         entity.setPassword(dto.getPassword());
         return entity;
