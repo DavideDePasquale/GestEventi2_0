@@ -11,10 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.parameters.P;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/utente")
@@ -40,6 +39,15 @@ public class UtenteController {
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
         System.out.println("🔥Login request received:" + loginRequest.getUsername());
         return authService.authenticateUser(loginRequest);
+    }
+
+    @GetMapping("/{id}")
+    public Utente getById(@PathVariable @Validated Long id){
+        return  utenteService.getUtenteById(id);
+    }
+    @GetMapping("/all")
+    public List<Utente> getAllUtenti(){
+        return utenteService.getAllUtenti();
     }
 
 

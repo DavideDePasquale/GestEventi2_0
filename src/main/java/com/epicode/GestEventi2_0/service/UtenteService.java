@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 @Transactional
 public class UtenteService {
@@ -26,6 +29,13 @@ public class UtenteService {
         utente.setPassword(passwordEncoder.encode(utenteDTO.getPassword()));
         utente.getRoles().forEach(System.out::println);
         return utenteRepository.save(utente);
+    }
+    public Utente getUtenteById(Long id){
+       return utenteRepository.findById(id).orElseThrow(()-> new RuntimeException("Utente con id " + id + " non presente nel db"));
+
+    }
+    public List<Utente> getAllUtenti(){
+        return utenteRepository.findAll();
     }
 
 

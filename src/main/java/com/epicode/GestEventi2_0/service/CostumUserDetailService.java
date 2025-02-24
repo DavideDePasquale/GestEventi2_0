@@ -15,6 +15,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+// CLASSE CHE VA A CONTROLLARE I DATI NEL DATABASE.
+
 @Service
 public class CostumUserDetailService implements UserDetailsService {
 

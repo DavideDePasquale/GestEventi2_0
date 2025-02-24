@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 import java.util.stream.Collectors;
 
+// FA DA TRAMITE FRA AUTHCONTROLLER e COSTUMUSERDETAILSERVICE
 @Service
 public class AuthService {
 

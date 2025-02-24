@@ -45,7 +45,7 @@ public class SecurityConfig {
                         .requestMatchers("/evento").permitAll()
                         .requestMatchers("/evento/{id}").permitAll()
                         .requestMatchers("/evento/**").hasAuthority("ADMIN")
-                        .requestMatchers("/api/reservations/**").hasAuthority("USER")
+                        .requestMatchers("/prenotazione/**").hasAuthority("USER")
                         .requestMatchers("/utente/register", "/utente/login").permitAll()
                         .anyRequest().authenticated()
                 )
