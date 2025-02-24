@@ -16,6 +16,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
+
+// QUI FILTREREMO LE AUTORIZZAZIONI PER IL TOKEN
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 

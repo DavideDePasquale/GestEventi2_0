@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import java.security.Key;
 import java.util.Date;
 import java.util.List;
-
+// NEL JWTUTILS , GESTIREMO IL TOKEN. (EMISSIONE, AUTENTICAZION, VALIDAZIONE ECC...)
 @Component
 public class JwtUtils {
 

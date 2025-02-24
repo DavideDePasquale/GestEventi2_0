@@ -25,7 +25,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
-
+// PRIMA CLASSE DA CONFIGURARE X SPRING SECURITY. TUTTI I BEAN CHE CI SERVIRANNO, VERRANNO MESSI QUI.
 @Configuration
 public class SecurityConfig {
     @Autowired
@@ -59,10 +59,6 @@ public class SecurityConfig {
         return new CostumUserDetailService(userRepository);
     }
 
-//    @Bean
-//    public AuthenticationManager authenticationManager(HttpSecurity http, UserDetailsService userDetailsService) throws Exception {
-//        return http.getSharedObject(AuthenticationManager.class);
-//    }
 @Bean
 public AuthenticationManager authenticationManager(
         UserDetailsService userDetailsService) throws Exception {
