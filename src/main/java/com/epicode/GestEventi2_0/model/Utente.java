@@ -28,7 +28,9 @@ public class Utente {
     private String username;
     @Column(nullable = false)
     private String password;
-    private String ruolo;
+    @ManyToOne
+    @JoinColumn(name = "utente_id")
+    private Ruolo ruolo;
 
 
 }
