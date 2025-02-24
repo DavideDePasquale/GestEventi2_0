@@ -23,13 +23,11 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtils;
 
-    @Autowired
+
     public AuthService(AuthenticationManager authenticationManager, JwtUtils jwtUtils) {
         this.authenticationManager = authenticationManager;
         this.jwtUtils = jwtUtils;
     }
-
-
 
     public ResponseEntity<?> authenticateUser(LoginRequest loginRequest){
         Authentication authentication = authenticationManager.authenticate

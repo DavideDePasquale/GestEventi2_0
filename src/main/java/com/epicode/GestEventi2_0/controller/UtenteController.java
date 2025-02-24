@@ -27,7 +27,7 @@ public class UtenteController {
 
     private AuthService authService;
 
-    @Autowired
+
     public UtenteController(AuthService authService) {
         this.authService = authService;
     }
