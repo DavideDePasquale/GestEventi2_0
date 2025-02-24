@@ -20,30 +20,25 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/utente")
 public class UtenteController {
 
+    private final AuthService authService;
+    private final UtenteService utenteService;
+    private final UtenteMapperDTO mapper;
+
     @Autowired
-    UtenteService utenteService;
-    @Autowired
-    UtenteMapperDTO mapper;
-
-    private AuthService authService;
-
-
-    public UtenteController(AuthService authService) {
+    public UtenteController(AuthService authService, UtenteService utenteService, UtenteMapperDTO mapper) {
         this.authService = authService;
+        this.utenteService = utenteService;
+        this.mapper = mapper;
     }
 
     @PostMapping("/register")
-    public UtenteDTO registerUser(@RequestBody @Validated UtenteDTO utenteDTO){
+    public UtenteDTO registerUser(@RequestBody @Validated UtenteDTO utenteDTO) {
         Utente utente = utenteService.createNewUtente(utenteDTO);
         return mapper.toDto(utente);
-
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody @Validated LoginRequest loginRequest){
+    public ResponseEntity<?> login(@RequestBody @Validated LoginRequest loginRequest) {
         return authService.authenticateUser(loginRequest);
     }
-
-
-
 }

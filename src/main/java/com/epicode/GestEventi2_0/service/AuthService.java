@@ -16,30 +16,28 @@ import org.springframework.stereotype.Service;
 @Transactional
 public class AuthService {
 
-    // qui dentro ci passiamo i dati (username e password)
-    // questo service deve autenticare se l'utente c'è o meno.
+  // qui dentro ci passiamo i dati (username e password)
+  // questo service deve autenticare se l'utente c'è o meno.
 
+  private final AuthenticationManager authenticationManager;
+  private final JwtUtils jwtUtils;
 
-    private final AuthenticationManager authenticationManager;
-    private final JwtUtils jwtUtils;
+  @Autowired
+  public AuthService(AuthenticationManager authenticationManager, JwtUtils jwtUtils) {
+    this.authenticationManager = authenticationManager;
+    this.jwtUtils = jwtUtils;
+  }
 
-
-    public AuthService(AuthenticationManager authenticationManager, JwtUtils jwtUtils) {
-        this.authenticationManager = authenticationManager;
-        this.jwtUtils = jwtUtils;
-    }
-
-    public ResponseEntity<?> authenticateUser(LoginRequest loginRequest){
-        Authentication authentication = authenticationManager.authenticate
-                (new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),loginRequest.getPassword()));
-       // prende l'oggetto autenticato e lo rendiamo sicuro.  ⬇️
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String username = ((UserDetails) authentication.getPrincipal()).getUsername();
-        String ruolo = authentication.getAuthorities().toString();
-        String jwt = jwtUtils.generateToken(username,ruolo);
-        return ResponseEntity.ok(jwt);
-    }
-
-
-
+  public ResponseEntity<?> authenticateUser(LoginRequest loginRequest) {
+    Authentication authentication =
+        authenticationManager.authenticate(
+            new UsernamePasswordAuthenticationToken(
+                loginRequest.getUsername(), loginRequest.getPassword()));
+    // prende l'oggetto autenticato e lo rendiamo sicuro.  ⬇️
+    SecurityContextHolder.getContext().setAuthentication(authentication);
+    String username = ((UserDetails) authentication.getPrincipal()).getUsername();
+    String ruolo = authentication.getAuthorities().toString();
+    String jwt = jwtUtils.generateToken(username, ruolo);
+    return ResponseEntity.ok(jwt);
+  }
 }
