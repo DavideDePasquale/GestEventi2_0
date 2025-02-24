@@ -18,6 +18,8 @@ public class Evento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idevento;
+    @Column(nullable = false)
+    private String titolo;
     @Column(nullable = true)
     private String descrizione;
     @Column(nullable = false)

@@ -13,6 +13,8 @@ import java.time.LocalDate;
 public class EventoDTO {
 
     @NotBlank
+    private String titolo;
+    @NotBlank
     private String descrizione;
     @NotBlank
     private LocalDate dataevento;

@@ -7,6 +7,8 @@ import java.util.Optional;
 
 public interface UtenteRepository extends JpaRepository<Utente,Long> {
     public Optional<Utente> findByUsername(String username);
+
+    public Optional<Utente> findById(Long id);
     // x la login
     public boolean existsByUsernameAndPassword(String username, String password);
     // per visualizzare alla creazione se l'username è libero (quindi se è presente o no nel db)
